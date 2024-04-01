@@ -1,0 +1,8 @@
+prefix=/home/ariff/catkin_ws/install
+
+Name: panthera_lights
+Description: Description of panthera_lights
+Version: 0.1.0
+Cflags: -I${prefix}/include
+Libs: -L${prefix}/lib 
+Requires: rospy std_msgs message_runtime

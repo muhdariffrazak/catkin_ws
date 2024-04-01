@@ -1,0 +1,40 @@
+<launch>
+  <!-- Arguments -->
+  <arg name="model" default="$(env TURTLEBOT3_MODEL)" doc="model type [burger, waffle, waffle_pi]"/>
+  <arg name="map_file" default="$(find assignments)/maps/house_sim_map.yaml"/>
+  <arg name="open_rviz" default="true"/>
+  <arg name="move_forward_only" default="false"/>
+
+  <!-- gazebo world -->
+  <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_house.launch">
+  </include>
+
+  <!-- Turtlebot3 -->
+  <include file="$(find turtlebot3_bringup)/launch/turtlebot3_remote.launch">
+  </include>
+
+  <!-- Map server -->
+  <node pkg="map_server" name="map_server" type="map_server" args="$(arg map_file)"/>
+
+  <!-- AMCL -->
+  <include file="$(find turtlebot3_navigation)/launch/amcl.launch">
+    <!-- get the robot pose from tf after moving it using rviz 2D pose estimate -->
+    <arg name="initial_pose_x" default="-2.999"/>
+    <arg name="initial_pose_y" default="1"/>
+    <arg name="initial_pose_a" default="0.00"/>
+  </include>
+  
+  <!-- rviz -->
+  <group if="$(arg open_rviz)"> 
+    <node pkg="rviz" type="rviz" name="rviz" required="true"
+          args="-d $(find turtlebot3_navigation)/rviz/turtlebot3_navigation.rviz"/>
+  </group>
+  
+  <!-- move_base launch file -->
+  <include file="$(find turtlebot3_navigation)/launch/move_base.launch">
+  </include>
+  
+  <node name="turtlebot_action_client" pkg="assignments" type="Ariff_Simp_Act_Client_csv.py" output="screen"/>
+  <node name="turtlebot_action_server" pkg="assignments" type="Ariff_Simp_Act_Server.py" output="screen"/>
+
+</launch>

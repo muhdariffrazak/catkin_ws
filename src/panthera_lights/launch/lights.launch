@@ -1,0 +1,5 @@
+<launch>
+    <node pkg="panthera_lights" name="panthera_lights" type="lights_node.py">
+        <rosparam file="$(find panthera_lights)/config/lights.yaml" command="load"/>
+    </node>
+</launch>

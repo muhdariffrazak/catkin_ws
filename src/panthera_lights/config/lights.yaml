@@ -1,0 +1,8 @@
+error_msg_topic: '/sutd001/err_msg'
+cmd_vel_topic: 'cmd_vel'
+purpur_marker_topic: '/pure_pursuit/path_marker'
+odom_topic: '/odometry/filtered/global'
+autonomy_mode_topic: 'autonomy_mode'
+serialtimer: 0.4
+serial_port: '/dev/ttyACM0' 
+baudrate: 115200

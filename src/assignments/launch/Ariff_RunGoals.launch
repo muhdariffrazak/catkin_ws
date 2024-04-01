@@ -1,0 +1,4 @@
+<launch>
+  <node name="turtlebot_action_client" pkg="assignments" type="Ariff_Simp_Act_Client.py" output="screen"/>
+  <node name="turtlebot_action_server" pkg="assignments" type="Ariff_Simp_Act_Server.py" output="screen"/>
+</launch>

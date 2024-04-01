@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>panthera_lights</name>
+  <version>0.1.0</version>
+  <description>The panthera_lights package</description>
+
+  <maintainer email="ariff@todo.todo">ariff</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <depend>rospy</depend>
+  <depend>std_msgs</depend>
+  <depend>geometry_msgs</depend>
+  <depend>visualization_msgs</depend>
+  <depend>nav_msgs</depend>
+  
+  
+  <build_depend>message_generation</build_depend>
+  <exec_depend>message_runtime</exec_depend>
+
+  <!-- The export tag contains other, unspecified, tags -->
+  <export>
+    <!-- Other tools can request additional information be placed here -->
+
+  </export>
+</package>

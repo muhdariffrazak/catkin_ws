@@ -1,0 +1,9 @@
+uint8 Brake
+uint8 HazardLight
+uint8 SignalRight
+uint8 SignalLeft
+uint8 Autonomous
+uint8 TeleOp
+uint8 Beacon
+uint8 Night
+uint8 Day

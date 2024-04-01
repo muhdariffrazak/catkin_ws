@@ -1,0 +1,133 @@
+                              +-------------------+
+                              | GoalCancelerNode  |
+                              +-------------------+
+                              |                   |
+                              | - move_base_client|   
+                              | - current_goal    |
+                              | - waypoints      |
+                              |                   |
+                              +--------+----------+
+                                       |
+                                       |
+                     +-----------------v------------------+
+                     |              ROS Node              |
+                     |                                    |
+                     |   - Subscribes to 'amcl_pose' topic |
+                     |   - Initializes GoalCancelerNode   |
+                     |   - Calls GoalCancelerNode.run()    |
+                     |                                    |
+                     +--------------+---------------------+
+                                    |
+                                    |
+                       +------------v-----------+
+                       |          CSV File       |
+                       |                         |
+                       | - Contains waypoints     |
+                       |                         |
+                       +------------+------------+
+                                    |
+                                    |
+                       +------------v-----------+
+                       |      ReadLocation()    |
+                       |                         |
+                       | - Reads CSV and extracts |
+                       |   waypoint information   |
+                       |                         |
+                       +------------+------------+
+                                    |
+                                    |
+                       +------------v-----------+
+                       |       Loop through      |
+                       |        waypoints        |
+                       |                         |
+                       | - Create MoveBaseGoal   |
+                       |   objects for each      |
+                       |   waypoint              |
+                       |                         |
+                       | - Add goals to waypoints |
+                       |   list in GoalCancelerNode|
+                       |                         |
+                       +------------+------------+
+                                    |
+                                    |
+                       +------------v-----------+
+                       | GoalCancelerNode.run() |
+                       |                         |
+                       | - Sends the first goal  |
+                       |   to start navigation   |
+                       |                         |
+                       | - Listens to 'amcl_pose'|
+                       |   topic and checks if   |
+                       |   robot is near the goal|
+                       |                         |
+                       | - If near goal, cancels |
+                       |   current goal and sends|
+                       |   the next waypoint as  |
+                       |   the new goal          |
+                       |                         |
+                       +------------+------------+
+                                    |
+                                    |
+                       +------------v-----------+
+                       |       ROS Action       |
+                       |        'move_base'      |
+                       |                         |
+                       | - MoveBaseActionClient  |
+                       |   sends goals to       |
+                       |   'move_base' server   |
+                       |                         |
+                       | - move_base server     |
+                       |   executes navigation  |
+                       |   and sends results    |
+                       |                         |
+                       +------------------------+
+
+Sure! When creating a new service in ROS, there are several steps you need to take. Here's a step-by-step guide to creating and using a new service in ROS:
+
+    Create a .srv File: Define the service message in a .srv file. This file will specify the request and response formats for the service. The .srv file should be placed in the srv directory of your ROS package.
+
+    Edit CMakeLists.txt: Open the CMakeLists.txt file of your package and add the following lines to generate the service files:
+
+    cmake
+
+add_service_files(
+  FILES
+  MapFilePath.srv
+)
+
+Here, MapFilePath.srv is the name of your .srv file. Add any other service files you create to this list.
+
+Update package.xml: In the package.xml file of your package, add the following line to ensure that the service files are installed properly:
+
+xml
+
+<build_depend>message_generation</build_depend>
+<exec_depend>message_runtime</exec_depend>
+
+Build the Package: Run catkin_make to build your package and generate the message headers.
+
+Source the Workspace: After building, source your workspace to make the new service message available.
+
+bash
+
+source /path/to/your/catkin_ws/devel/setup.bash
+
+Implement the Service Server: In your Python or C++ code, implement the service server node that will handle the incoming service requests. The service server must provide a callback function that processes the incoming request and produces a response.
+
+Register the Service Server: In your service server node, register the service with ROS. This is usually done in the main part of your code.
+
+    In Python:
+
+    python
+
+rospy.Service('/multimap_server/set_map', MapFilePath, set_map)
+
+In C++:
+
+cpp
+
+        ros::ServiceServer service = nh.advertiseService("/multimap_server/set_map", &setMapCallback);
+
+    Test the Service: Start the service server node, and you can use rosservice call or other service client nodes to send requests and receive responses from the service.
+
+That's it! Following these steps, you can create, use, and test your new service in ROS. Remember that services allow you to define custom message formats for more complex interactions between nodes. Make sure to handle errors and edge cases appropriately in your service server implementation.
